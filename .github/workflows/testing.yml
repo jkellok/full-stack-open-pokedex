@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   a_test_job:
@@ -22,5 +25,5 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
           COMMIT_MESSAGES_JOIN: ${{ join(github.event.commits.*.message, ' ') }}
-        if: ${{ ! contains("$COMMIT_MESSAGES_JOIN", "#skip") }}
+        if: ${{ ! contains($COMMIT_MESSAGES_JOIN, '#skip') }}
         run: echo "$COMMIT_MESSAGES, $COMMIT_MESSAGES_JOIN"
