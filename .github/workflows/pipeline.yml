@@ -50,12 +50,13 @@ jobs:
           retention-days: 30
 
       - name: Trigger deployment
+        id: trigger-deployment
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
         run: curl https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{secrets.RENDER_API_KEY }}
 
       - name: Discord Webhook Notify Deploy Success
         uses: rjstone/discord-webhook-notify@v1.0.4
-        if: success()
+        if: success() && steps.trigger-deployment.outcome == 'success'
         with:
           severity: info
           text: A new version was deployed!
