@@ -27,7 +27,7 @@ jobs:
 
       - name: Print commit
         env:
-          GITHUB_CONTEXT: ${{ toJson(github.event.pull_request.head.sha) }}
+          GITHUB_CONTEXT: ${{ toJson(github.event.pull_request.head) }}
         run: echo "$GITHUB_CONTEXT"
 
       - name: Discord Webhook Notify Build Failure
