@@ -25,10 +25,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Print commit
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event_name) }}
+        run: echo "$GITHUB_CONTEXT"
+
       # On Pull Request as a failing build should not be pushed to main branch
       - name: Discord Webhook Notify Build Failure
         uses: rjstone/discord-webhook-notify@v1.0.4
-        if: failure()
+        if: failure() && ${{ github.event_name == 'pull_request' }}
         with:
           severity: error
           text: Build failed!
