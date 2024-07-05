@@ -25,13 +25,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Print commit
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event.pull_request.head) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Discord Webhook Notify Build Failure
         uses: rjstone/discord-webhook-notify@v1.0.4
         if: failure()
         with:
           severity: error
-          text: Build failed!
-          description: Build failed with commit ${{ github.event.commits[0].url}} by ${{ github.event.commits[0].committer.username }}
+          #text: Build failed!
+          #description: Build failed with commit ${{ github.event.commits[0].url}} by ${{ github.event.commits[0].committer.username }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Test
@@ -56,7 +61,7 @@ jobs:
 
       - name: Discord Webhook Notify Deploy Success
         uses: rjstone/discord-webhook-notify@v1.0.4
-        if: success() && steps.trigger-deployment.outcome == 'success'
+        if: steps.trigger-deployment.outcome == 'success'
         with:
           severity: info
           text: A new version was deployed!
