@@ -37,7 +37,7 @@ jobs:
         with:
           severity: error
           text: Build failed!
-          description: Build failed with commit ${{ github.event.pull_request.head.html_url}}/commit/${{ github.event.pull_request.head.sha}} by ${{ github.event.pull_request.head.user.login }}
+          description: Build failed with commit ${{ github.event.pull_request.head.repo.html_url}}/commit/${{ github.event.pull_request.head.sha}} by ${{ github.event.pull_request.head.user.login }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Test
