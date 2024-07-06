@@ -21,7 +21,7 @@ jobs:
 
       - name: Print commit
         env:
-          GITHUB_CONTEXT: ${{ toJson(github.event.pull_request) }}
+          GITHUB_CONTEXT: ${{ toJson(github.event) }}
         run: echo "$GITHUB_CONTEXT"
 
       - name: Check style
@@ -66,7 +66,7 @@ jobs:
         with:
           severity: info
           text: A new version was deployed!
-          description: Deployed to https://full-stack-open-pokedex-ki28.onrender.com/
+          description: Deployed to https://full-stack-open-pokedex-ki28.onrender.com/ by ${{ github.event.commits[0].committer.username }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
