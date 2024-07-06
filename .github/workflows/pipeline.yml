@@ -19,11 +19,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Print commit
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github.event) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - name: Check style
         run: npm run eslint
 
